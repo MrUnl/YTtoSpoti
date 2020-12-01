@@ -1,16 +1,12 @@
 const {
-    google,
-    run_v1
+    google
 } = require('googleapis')
-const readline = require("readline");
 const axios = require('axios')
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+
 if (process.env.NODE_ENV !== "production") {
     require("dotenv").config()
 }
+
 
 let playlistName = "";
 let playlistId = "";
@@ -23,7 +19,7 @@ const headers = {
  * @param {String} id Youtube Playlist Id
  * @returns {Array}
  */
-function getPlaylistInfo(id) {
+function getPlaylistInfo(id,callback) {
     try {
         google.youtube("v3").playlistItems.list({
             key: process.env.API_KEY,
@@ -34,21 +30,21 @@ function getPlaylistInfo(id) {
             let names = res.data.items.map(item => {
                 return item.snippet.title.replace(/(\[|\()?Official( Music)?( Lyrics)?( Visual)?( Video)?(\]|\))?/gi,"").trim()
             })
-            createPlaylist(names)
+            callback(names);
         })
     } catch (error) {
         console.log(error);
-    };
+    }
 }
 
-function createPlaylist(names) {
+function createPlaylist(names,user_id) {
     let params = {
         name: playlistName,
         description: "Generated With Yt to Spoti App",
         public: true
     }
     
-    axios.post(`https://api.spotify.com/v1/users/${process.env.SPOTIFY_USER_ID}/playlists`, params, {headers})
+    axios.post(`https://api.spotify.com/v1/users/${user_id}/playlists`, params, {headers})
         .then(async res => {
             playlistId = res.data.id;
             let trackUris = [];
@@ -69,14 +65,5 @@ function createPlaylist(names) {
         .catch(err => console.error(err))
 }
 
-rl.question("Enter a YT playlist id: ", id => {
 
-    rl.question("Enter playlist name for Spotify: ", name => {
-        playlistName = name;
-        getPlaylistInfo(id);
-        rl.close()
-    })
-    
-
-    
-})
+module.exports = getPlaylistInfo;

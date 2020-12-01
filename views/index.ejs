@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youtube to Spotify Playlist</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div class="user">
+        
+            <img src="<%=user.photos[0]%>" alt="<%=user.displayName%>">
+            <span><%=user.displayName%></span>
+    </div>
+    <form action="/playlist" method="POST">
+            <input required placeholder="Enter Playlist Name" name="name" type="text">
+            <input required placeholder="Enter Playlist ID" name="id"type="text">
+            <button type="submit">Convert</button>
+    </form>
+</body>
+</html>

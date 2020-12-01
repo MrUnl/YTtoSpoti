@@ -2,15 +2,21 @@
   "name": "yttospoti",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "devStart": "nodemon server.js",
+    "start": "node server.js"
   },
   "author": "Ataberk ASLAN",
   "license": "GNU",
   "dependencies": {
     "axios": "^0.21.0",
     "dotenv": "^8.2.0",
-    "googleapis": "^65.0.0"
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "googleapis": "^65.0.0",
+    "passport": "^0.4.1",
+    "passport-spotify": "^1.1.0"
   }
 }
